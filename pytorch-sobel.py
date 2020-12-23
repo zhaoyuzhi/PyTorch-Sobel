@@ -64,14 +64,14 @@ if __name__ == "__main__":
     
     net = GradLayer()
     img = cv2.imread('example.JPEG')
-    a = img.shape
+    a = img.shape # (256, 256, 3)
     
     img = (img / 255.0).astype(np.float32)
     img = torch.from_numpy(img).permute(2, 0, 1).unsqueeze(0)
-    img = net(img) # input img: [0, 1], torch.float32
+    img = net(img) # input img: data range [0, 1]; data type torch.float32; data shape [1, 3, 256, 256]
+    b = img.shape # torch.Size([1, 1, 256, 256])
     img = (img[0, :, :, :].permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
     
-    b = img.shape
-    assert a == b
+    c = img.shape # (256, 256, 1)
     cv2.imshow('pytorch sobel', img)
     cv2.waitKey(0)
